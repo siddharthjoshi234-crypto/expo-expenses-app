@@ -1,0 +1,25 @@
+import * as SQLite from 'expo-sqlite';
+
+const db = await SQLite.openDatabaseAsync('database.db');
+
+await db.execAsync(`CREATE TABLE IF NOT EXISTS payments (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    description TEXT,
+    amount REAL NOT NULL,
+    category TEXT NOT NULL,
+    time DATETIME DEFAULT (datetime('now', 'localtime'))
+)`);
+
+await db.execAsync(`CREATE TABLE IF NOT EXISTS statistics (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    monthly_income REAL DEFAULT 0,
+    monthly_expense REAL DEFAULT 0,
+    monthly_savings REAL DEFAULT 0
+    )`);
+
+export async function submitPayment(description: string, amount: number, category: string) {
+    await db.runAsync(`INSERT INTO payments (description, amount, category) VALUES (?, ?, ?)`, [description, amount, category]);
+}
+export async function getRecentPayments() {
+    await db.execAsync(`SELECT * FROM payments ORDER BY DESC LIMIT 5; )
+}
