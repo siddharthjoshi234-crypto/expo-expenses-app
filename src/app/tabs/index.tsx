@@ -3,6 +3,8 @@ import { Colors } from '@/constants/theme';
 import { useRouter } from 'expo-router';
 import { StyleSheet, Text, useColorScheme, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+
+
 export default function HomeScreen(){
   const scheme = useColorScheme();
   const colors = Colors[scheme === 'dark' ? 'dark' : 'light'];
