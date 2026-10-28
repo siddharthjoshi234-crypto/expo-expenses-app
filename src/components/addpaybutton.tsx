@@ -1,9 +1,10 @@
-import { StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { ThemedText } from '@/components/themed-text';
+import { StyleSheet, TouchableOpacity } from 'react-native';
 
 export default function AddPayButton({onPress}: {onPress: () => void}) {
   return (
     <TouchableOpacity style={styles.button} onPress={onPress}>
-      <Text style={styles.buttonText}>Add Payment</Text>
+      <ThemedText style={styles.buttonText}>Add Payment</ThemedText>
     </TouchableOpacity>
   );
 }

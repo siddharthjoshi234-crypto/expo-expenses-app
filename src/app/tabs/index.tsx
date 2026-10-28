@@ -1,11 +1,13 @@
 import AddPayButton from '@/components/addpaybutton';
+import { ThemedText } from '@/components/themed-text';
 import { Colors } from '@/constants/theme';
 import { useRouter } from 'expo-router';
-import { StyleSheet, Text, useColorScheme, View } from 'react-native';
+import { useSQLiteContext } from 'expo-sqlite';
+import { StyleSheet, useColorScheme, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-
 export default function HomeScreen(){
+  const db = useSQLiteContext();
   const scheme = useColorScheme();
   const colors = Colors[scheme === 'dark' ? 'dark' : 'light'];
   const router = useRouter();
@@ -15,7 +17,7 @@ export default function HomeScreen(){
   return (
     <SafeAreaView style={[styles.screen, { backgroundColor: colors.background }]}>
       <View style={styles.content}>
-        <Text style={[styles.title, { color: colors.text }]}>FinTrack</Text>
+        <ThemedText type="title">FinTrack</ThemedText>
         <AddPayButton onPress = {addpaymenttab}/>
       </View>
     </SafeAreaView>
@@ -28,9 +30,5 @@ const styles = StyleSheet.create({
   },
   content: {
     padding: 24,
-  },
-  title: {
-    fontSize: 30,
-    fontWeight: 'bold',
   },
 });
