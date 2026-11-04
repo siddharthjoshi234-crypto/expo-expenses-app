@@ -5,7 +5,7 @@ export default function RootLayout() {
     <Tabs>
         <Tabs.Screen name="index" options={{headerShown: false}} />
         <Tabs.Screen name="addpayment" options={{headerShown: false}} />
-        <Tabs.Screen name="planning" options={{headerShown: true}} />
+        <Tabs.Screen name="settings" options={{headerShown: false}} />
     </Tabs>
   );
 }

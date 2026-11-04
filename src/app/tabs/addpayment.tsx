@@ -1,4 +1,5 @@
 import AddPayButton from '@/components/addpaybutton';
+import CategoryButton from '@/components/categorybutton';
 import { DescriptionInput } from '@/components/desc-input';
 import { ThemedText } from '@/components/themed-text';
 import { Colors } from '@/constants/theme';
@@ -13,6 +14,7 @@ export default function HomeScreen(){
   const scheme = useColorScheme();
   const colors = Colors[scheme === 'dark' ? 'dark' : 'light'];
   const router = useRouter();
+
   async function addPayment(desc: string, amt: number, category: string) {
     if (!amt && !category) {
       alert('Please fill in the Amount & select a category');
@@ -33,7 +35,9 @@ export default function HomeScreen(){
       desc = "No Description";
     }
     await db.runAsync('INSERT INTO payments (description, amount, category) VALUES (?, ?, ?)', [desc, amt, category] );
+    router.push('/tabs');
   }
+  
   const [inputAmt, setInputAmt] = useState('0.00');
   const [inputDesc, setInputDesc] = useState('');
   const [inputCategory, setInputCategory] = useState('');
@@ -43,7 +47,11 @@ export default function HomeScreen(){
         <ThemedText type="title">FinTrack</ThemedText>
         <TextInput placeholder="0.00" keyboardType="numeric" onChangeText={(inputAmt) => setInputAmt(inputAmt)} />
         <DescriptionInput onChangeText={(inputDesc) => setInputDesc(inputDesc)} />
-        <TextInput placeholder="Category" onChangeText={setInputCategory} />
+        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+          <CategoryButton onPress = {() => setInputCategory('Food')} category="Food" />
+          <CategoryButton onPress = {() => setInputCategory('Transport')} category="Transport" />
+          <CategoryButton onPress = {() => setInputCategory('Entertainment')} category="Entertainment" />
+        </div>
         <AddPayButton onPress = {() => addPayment(inputDesc, parseFloat(inputAmt), inputCategory)}/>
       </View>
     </SafeAreaView>
