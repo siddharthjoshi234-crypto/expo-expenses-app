@@ -3,6 +3,7 @@ import CategoryButton from '@/components/categorybutton';
 import { DescriptionInput } from '@/components/desc-input';
 import { ThemedText } from '@/components/themed-text';
 import { Colors } from '@/constants/theme';
+import { GetCategory } from '@/lib/categories';
 import { useRouter } from 'expo-router';
 import { useSQLiteContext } from 'expo-sqlite';
 import { useState } from 'react';
@@ -37,7 +38,7 @@ export default function HomeScreen(){
     await db.runAsync('INSERT INTO payments (description, amount, category) VALUES (?, ?, ?)', [desc, amt, category] );
     router.push('/tabs');
   }
-  
+  const addedCategories = GetCategory();
   const [inputAmt, setInputAmt] = useState('0.00');
   const [inputDesc, setInputDesc] = useState('');
   const [inputCategory, setInputCategory] = useState('');
@@ -51,6 +52,9 @@ export default function HomeScreen(){
           <CategoryButton onPress = {() => setInputCategory('Food')} category="Food" />
           <CategoryButton onPress = {() => setInputCategory('Transport')} category="Transport" />
           <CategoryButton onPress = {() => setInputCategory('Entertainment')} category="Entertainment" />
+          {addedCategories.map((category: string) => (
+            <CategoryButton onPress={() => setInputCategory(category)} category={category} />
+          ))}
         </div>
         <AddPayButton onPress = {() => addPayment(inputDesc, parseFloat(inputAmt), inputCategory)}/>
       </View>
