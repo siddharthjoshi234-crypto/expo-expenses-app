@@ -6,7 +6,7 @@ import { Colors } from '@/constants/theme';
 import { GetCategory } from '@/lib/categories';
 import { useRouter } from 'expo-router';
 import { useSQLiteContext } from 'expo-sqlite';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { StyleSheet, TextInput, useColorScheme, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 export default function HomeScreen(){
@@ -38,7 +38,14 @@ export default function HomeScreen(){
     await db.runAsync('INSERT INTO payments (description, amount, category) VALUES (?, ?, ?)', [desc, amt, category] );
     router.push('/tabs');
   }
-  const addedCategories = GetCategory();
+  const [addedCategories,setCategories] = useState<string[]>([]);
+  useEffect(() => {
+    async function fetchCategories() {
+      const storedCategories = await GetCategory();
+      setCategories(storedCategories);
+    }
+    fetchCategories();
+  }, []);
   const [inputAmt, setInputAmt] = useState('0.00');
   const [inputDesc, setInputDesc] = useState('');
   const [inputCategory, setInputCategory] = useState('');

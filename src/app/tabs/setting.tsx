@@ -19,6 +19,7 @@ return (
         <View style={styles.content}>
         <TextInput placeholder = {inputAmt} keyboardType="numeric" onChangeText={(inputAmt) => setInputAmt(inputAmt)} onEndEditing={addIncome} />
         <div>
+            <TextInput placeholder = 'Additional income' keyboardType="numeric" onChangeText={(inputAmt) => setInputAmt(inputAmt)} onEndEditing={addIncome} />
             <TextInput placeholder = 'New category' onChangeText={(inputCategory) => setInputCategory(inputCategory)} />
             <button onClick={() => AddCategory(inputCategory)}>Add Category</button>
         </div>
