@@ -55,10 +55,10 @@ export default function HomeScreen(){
         <ThemedText type="title">FinTrack</ThemedText>
         <TextInput placeholder="0.00" keyboardType="numeric" onChangeText={(inputAmt) => setInputAmt(inputAmt)} />
         <DescriptionInput onChangeText={(inputDesc) => setInputDesc(inputDesc)} />
-        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-          <CategoryButton onPress = {() => setInputCategory('Food')} category="Food" />
+        <div style={styles.categoryContainer}>
+          {/* <CategoryButton onPress = {() => setInputCategory('Food')} category="Food" />
           <CategoryButton onPress = {() => setInputCategory('Transport')} category="Transport" />
-          <CategoryButton onPress = {() => setInputCategory('Entertainment')} category="Entertainment" />
+          <CategoryButton onPress = {() => setInputCategory('Entertainment')} category="Entertainment" /> */}
           {addedCategories.map((category: string) => (
             <CategoryButton onPress={() => setInputCategory(category)} category={category} />
           ))}
@@ -79,6 +79,13 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 30,
     fontWeight: 'bold',
+  },
+  categoryContainer:{
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginTop: 20,
   },
 });
   

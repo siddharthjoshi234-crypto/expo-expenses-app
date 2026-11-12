@@ -39,6 +39,14 @@ export default function HomeScreen(){
         <ThemedText type="subtitle">FinTrack</ThemedText>
         <ThemedText type="title">{currentMonthSpending}<span style = {styles.monthIncomeText}>/{currentMonthIncome}</span></ThemedText>
         <AddPayButton onPress = {addpaymenttab}/>
+        <div style={ styles.categoryContainer}>
+          <div style={styles.categoryPressable}>
+            <ThemedText type="default">Income</ThemedText>
+            {/* <PercentageCircle percentage={currentMonthIncome === 0 ? 0 : (currentMonthSpending / currentMonthIncome) * 100} /> */}
+          </div>
+          <div style={styles.categoryPressable}>
+          </div>
+        </div>
       </View>
     </SafeAreaView>
   );
@@ -55,5 +63,17 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 300,
     lineHeight: 26,
+  },
+  categoryContainer:{
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginTop: 20,
+  },
+  categoryPressable:{
+    display: 'flex',
+    flexDirection: 'row', 
+    alignItems: 'center' 
   }
 });
