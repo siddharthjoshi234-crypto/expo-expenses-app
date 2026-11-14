@@ -15,6 +15,7 @@ export default function HomeScreen(){
   function addpaymenttab() {
     router.push('/tabs/addpayment');
   }
+
   const [currentMonthIncome, setCurrentMonthIncome] = useState(0);
   const [currentMonthSpending, setCurrentMonthSpending] = useState(0); 
   useEffect(() => {
@@ -22,12 +23,13 @@ export default function HomeScreen(){
     const currentDate = new Date();
     const currentMonth = currentDate.getMonth() + 1;
     const currentYear = currentDate.getFullYear();
-    const totalIncome = await db.getFirstAsync('SELECT SUM(amount) as totalIncome FROM income WHERE strftime("%m", date) = ? AND strftime("%Y", date) = ?',
+    type IncomeResult = { totalIncome: number | null , totalSpending: number | null };
+    const totalIncome = await db.getFirstAsync<IncomeResult>('SELECT SUM(amount) as totalIncome FROM income WHERE strftime("%m", date) = ? AND strftime("%Y", date) = ?',
       [currentMonth.toString().padStart(2, '0'), currentYear.toString()]);
-    const totalSpending = await db.getFirstAsync('SELECT SUM(amount) as totalSpending FROM spending WHERE strftime("%m", date) = ? AND strftime("%Y", date) = ?',
+    const totalSpending = await db.getFirstAsync<IncomeResult>('SELECT SUM(amount) as totalSpending FROM spending WHERE strftime("%m", date) = ? AND strftime("%Y", date) = ?',
       [currentMonth.toString().padStart(2, '0'), currentYear.toString()]);
-    // setCurrentMonthIncome(totalIncome?.totalIncome?? 0);
-    // setCurrentMonthSpending(totalSpending?.totalSpending ?? 0);
+    setCurrentMonthIncome(totalIncome?.totalIncome ?? 0);
+    setCurrentMonthSpending(totalSpending?.totalSpending ?? 0);
   }
 
     fetchCurrentMonthData();
@@ -37,12 +39,15 @@ export default function HomeScreen(){
     <SafeAreaView style={[styles.screen, { backgroundColor: colors.background }]}>
       <View style={styles.content}>
         <ThemedText type="subtitle">FinTrack</ThemedText>
-        <ThemedText type="title">{currentMonthSpending}<span style = {styles.monthIncomeText}>/{currentMonthIncome}</span></ThemedText>
+        <ThemedText type="title" style={{ ...styles.monthIncomeText, color: currentMonthSpending > currentMonthIncome ? 'red' : 'green' }}>
+          {currentMonthSpending}
+          <span style={styles.monthIncomeText}> /{currentMonthIncome}</span>
+        </ThemedText>
         <AddPayButton onPress = {addpaymenttab}/>
         <div style={ styles.categoryContainer}>
           <div style={styles.categoryPressable}>
             <ThemedText type="default">Income</ThemedText>
-            {/* <PercentageCircle percentage={currentMonthIncome === 0 ? 0 : (currentMonthSpending / currentMonthIncome) * 100} /> */}
+            <PercentageCircle percentage={currentMonthIncome === 0 ? 0 : (currentMonthSpending / currentMonthIncome) * 100} />
           </div>
           <div style={styles.categoryPressable}>
           </div>
