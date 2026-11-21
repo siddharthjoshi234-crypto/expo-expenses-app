@@ -1,8 +1,9 @@
+import { ThemedText } from '@/components/themed-text';
 import { Colors } from '@/constants/theme';
 import { AddCategory } from '@/lib/categories';
 import { useSQLiteContext } from 'expo-sqlite';
 import { useState } from 'react';
-import { StyleSheet, TextInput, useColorScheme, View } from 'react-native';
+import { Pressable, StyleSheet, TextInput, useColorScheme, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function SettingsScreen(){
@@ -18,11 +19,13 @@ return (
     <SafeAreaView style={[styles.screen, { backgroundColor: colors.background }]}>
         <View style={styles.content}>
         <TextInput placeholder = {inputAmt} keyboardType="numeric" onChangeText={(inputAmt) => setInputAmt(inputAmt)} onEndEditing={addIncome} />
-        <div>
+        <View>
             <TextInput placeholder = 'Additional income' keyboardType="numeric" onChangeText={(inputAmt) => setInputAmt(inputAmt)} onEndEditing={addIncome} />
             <TextInput placeholder = 'New category' onChangeText={(inputCategory) => setInputCategory(inputCategory)} />
-            <button onClick={() => AddCategory(inputCategory)}>Add Category</button>
-        </div>
+            <Pressable onPress={() => AddCategory(inputCategory)}>
+                <ThemedText>Add Category</ThemedText>
+            </Pressable>
+        </View>
         </View>
     </SafeAreaView>
     );

@@ -1,4 +1,5 @@
 import AddPayButton from '@/components/addpaybutton';
+import PercentageCircle from '@/components/percentagecircle';
 import { ThemedText } from '@/components/themed-text';
 import { Colors } from '@/constants/theme';
 import { useRouter } from 'expo-router';
@@ -6,6 +7,7 @@ import { useSQLiteContext } from 'expo-sqlite';
 import { useEffect, useState } from 'react';
 import { StyleSheet, useColorScheme, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+
 
 export default function HomeScreen(){
   const db = useSQLiteContext();
@@ -26,7 +28,7 @@ export default function HomeScreen(){
     type IncomeResult = { totalIncome: number | null , totalSpending: number | null };
     const totalIncome = await db.getFirstAsync<IncomeResult>('SELECT SUM(amount) as totalIncome FROM income WHERE strftime("%m", date) = ? AND strftime("%Y", date) = ?',
       [currentMonth.toString().padStart(2, '0'), currentYear.toString()]);
-    const totalSpending = await db.getFirstAsync<IncomeResult>('SELECT SUM(amount) as totalSpending FROM spending WHERE strftime("%m", date) = ? AND strftime("%Y", date) = ?',
+    const totalSpending = await db.getFirstAsync<IncomeResult>('SELECT SUM(amount) as totalSpending FROM payments WHERE strftime("%m", time) = ? AND strftime("%Y", time) = ?',
       [currentMonth.toString().padStart(2, '0'), currentYear.toString()]);
     setCurrentMonthIncome(totalIncome?.totalIncome ?? 0);
     setCurrentMonthSpending(totalSpending?.totalSpending ?? 0);
@@ -41,17 +43,17 @@ export default function HomeScreen(){
         <ThemedText type="subtitle">FinTrack</ThemedText>
         <ThemedText type="title" style={{ ...styles.monthIncomeText, color: currentMonthSpending > currentMonthIncome ? 'red' : 'green' }}>
           {currentMonthSpending}
-          <span style={styles.monthIncomeText}> /{currentMonthIncome}</span>
+          <ThemedText style={styles.monthIncomeText}> /{currentMonthIncome}</ThemedText>
         </ThemedText>
         <AddPayButton onPress = {addpaymenttab}/>
-        <div style={ styles.categoryContainer}>
-          <div style={styles.categoryPressable}>
+        <View style={ styles.categoryContainer}>
+          <View style={styles.categoryPressable}>
             <ThemedText type="default">Income</ThemedText>
             <PercentageCircle percentage={currentMonthIncome === 0 ? 0 : (currentMonthSpending / currentMonthIncome) * 100} />
-          </div>
-          <div style={styles.categoryPressable}>
-          </div>
-        </div>
+          </View>
+          <View style={styles.categoryPressable}>
+          </View>
+        </View>
       </View>
     </SafeAreaView>
   );

@@ -8,7 +8,7 @@ export default function StackLayout() {
     <SQLiteProvider
       databaseName = "database.db"
       assetSource = {{
-        assetId: require('../assets/database.db'),
+        assetId: require('../../assets/database.db'),
       }}
     >
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>

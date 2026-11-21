@@ -55,14 +55,14 @@ export default function HomeScreen(){
         <ThemedText type="title">FinTrack</ThemedText>
         <TextInput placeholder="0.00" keyboardType="numeric" onChangeText={(inputAmt) => setInputAmt(inputAmt)} />
         <DescriptionInput onChangeText={(inputDesc) => setInputDesc(inputDesc)} />
-        <div style={styles.categoryContainer}>
+        <View style={styles.categoryContainer}>
           {/* <CategoryButton onPress = {() => setInputCategory('Food')} category="Food" />
           <CategoryButton onPress = {() => setInputCategory('Transport')} category="Transport" />
           <CategoryButton onPress = {() => setInputCategory('Entertainment')} category="Entertainment" /> */}
           {addedCategories.map((category: string) => (
             <CategoryButton onPress={() => setInputCategory(category)} category={category} />
           ))}
-        </div>
+        </View>
         <AddPayButton onPress = {() => addPayment(inputDesc, parseFloat(inputAmt), inputCategory)}/>
       </View>
     </SafeAreaView>
