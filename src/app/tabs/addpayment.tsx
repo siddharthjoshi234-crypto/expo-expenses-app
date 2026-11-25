@@ -56,11 +56,8 @@ export default function HomeScreen(){
         <TextInput placeholder="0.00" keyboardType="numeric" onChangeText={(inputAmt) => setInputAmt(inputAmt)} />
         <DescriptionInput onChangeText={(inputDesc) => setInputDesc(inputDesc)} />
         <View style={styles.categoryContainer}>
-          {/* <CategoryButton onPress = {() => setInputCategory('Food')} category="Food" />
-          <CategoryButton onPress = {() => setInputCategory('Transport')} category="Transport" />
-          <CategoryButton onPress = {() => setInputCategory('Entertainment')} category="Entertainment" /> */}
           {addedCategories.map((category: string) => (
-            <CategoryButton onPress={() => setInputCategory(category)} category={category} />
+            <CategoryButton onPress={() => setInputCategory(category)} category={category} key={category} />
           ))}
         </View>
         <AddPayButton onPress = {() => addPayment(inputDesc, parseFloat(inputAmt), inputCategory)}/>
