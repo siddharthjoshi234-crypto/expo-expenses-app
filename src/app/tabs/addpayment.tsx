@@ -4,9 +4,9 @@ import { DescriptionInput } from '@/components/desc-input';
 import { ThemedText } from '@/components/themed-text';
 import { Colors } from '@/constants/theme';
 import { GetCategory } from '@/lib/categories';
-import { useRouter } from 'expo-router';
+import { useFocusEffect, useRouter } from 'expo-router';
 import { useSQLiteContext } from 'expo-sqlite';
-import { useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { StyleSheet, TextInput, useColorScheme, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 export default function HomeScreen(){
@@ -39,13 +39,15 @@ export default function HomeScreen(){
     router.push('/tabs');
   }
   const [addedCategories,setCategories] = useState<string[]>([]);
-  useEffect(() => {
+  useFocusEffect(
+    useCallback(() => {
     async function fetchCategories() {
       const storedCategories = await GetCategory();
       setCategories(storedCategories);
     }
-    fetchCategories();
-  }, []);
+    void fetchCategories();
+    }, [])
+  );
   const [inputAmt, setInputAmt] = useState('0.00');
   const [inputDesc, setInputDesc] = useState('');
   const [inputCategory, setInputCategory] = useState('');
@@ -80,7 +82,8 @@ const styles = StyleSheet.create({
   categoryContainer:{
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexWrap: 'wrap',
+    justifyContent: 'flex-start',
     alignItems: 'center',
     marginTop: 20,
   },

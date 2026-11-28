@@ -8,9 +8,9 @@ export default function PercentageCircle({ percentage }: { percentage: number })
   return (
     <Svg width={80} height={80} viewBox="0 0 100 100">
       <Circle cx="50" cy="50" r="45" fill="none" stroke="gray" strokeWidth={2} />
-      <Path d={`M 50 5 A 45 45 0 0 1 ${x} ${y}`} fill = "none" stroke="red" strokeWidth={3} />
+      <Path d={`M 50 5 A 45 45 0 0 0 ${x} ${y}`} fill = "none" stroke="red" strokeWidth={8} strokeLinecap="round" />
       <SvgText x="50" y="50" textAnchor="middle" fontSize="20" fontWeight="bold" fill="black" dy=".3em">
-        {percentage.toFixed(0)}%
+        {`${percentage.toFixed(0)}%`}
       </SvgText>
     </Svg>
   );
